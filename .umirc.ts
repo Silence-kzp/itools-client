@@ -10,7 +10,6 @@ export default defineConfig({
       component: '@/layouts/index',
       routes: [
         { path: '/', component: '@/pages/index' },
-        { path: '/tts', component: '@/pages/tts/index' }
       ],
     },
 
@@ -35,14 +34,6 @@ export default defineConfig({
                  .test(/\.svg$/i)
                  .use('@svgr/webpack')
                  .loader('@svgr/webpack');       
-                 
-    // web worker
-    // config.output.globalObject('this');
-    // config.module.rule('worker')
-    //              .test(/\.worker\.ts$/i)
-    //              .use('worker-loader')
-    //              .loader('worker-loader')
-    //              .options({ inline: true });
   },
 
 });
