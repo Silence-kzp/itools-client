@@ -9,7 +9,8 @@ export default defineConfig({
       path: '/', 
       component: '@/layouts/index',
       routes: [
-        { path: '/', component: '@/pages/index' }
+        { path: '/', component: '@/pages/index' },
+        { path: '/tts', component: '@/pages/tts/index' }
       ],
     },
 
@@ -33,7 +34,15 @@ export default defineConfig({
     config.module.rule('svg')
                  .test(/\.svg$/i)
                  .use('@svgr/webpack')
-                 .loader('@svgr/webpack');             
+                 .loader('@svgr/webpack');       
+                 
+    // web worker
+    // config.output.globalObject('this');
+    // config.module.rule('worker')
+    //              .test(/\.worker\.ts$/i)
+    //              .use('worker-loader')
+    //              .loader('worker-loader')
+    //              .options({ inline: true });
   },
 
 });
