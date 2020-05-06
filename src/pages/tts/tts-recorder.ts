@@ -1,6 +1,5 @@
 import CryptoJS from 'crypto-js';
 import { Base64 } from 'js-base64'
-import TransWorker from 'worker-loader!./transcode.worker';
 
 const APPID = '5e622cec';
 const API_SECRET = '1a2826d9c9fe18c7b4f46455743becd8';
@@ -15,7 +14,6 @@ interface TTSRecorderProps {
     text?: string,
     tte?: string,
 }
-const worker = new TransWorker();
 
 class AudioPlayer {
     offset = 0;
@@ -29,31 +27,21 @@ class AudioPlayer {
         if (Context) {
             this.context = new Context();
             this.context.resume();
-            this.offset = 0;
         }
     }
 
     play(audio: any) {
-        this.offset += audio.length;
-        const buffer = this.context.createBuffer(1, audio.length, 22050);
-        const now = buffer.getChannelData(0);
-        if (buffer.copyToChannel) {
-            buffer.copyToChannel(new Float32Array(audio), 0, 0);
-        } else {
-            for (let i = 0, len = audio.length; i < len; i++) {
-                now[i] = audio[i]
-            }
-        }
-        const bufferSource = this.context.createBufferSource();
-        bufferSource.buffer = buffer;
-        bufferSource.connect(this.context.destination);
-        bufferSource.start();
-        bufferSource.onended = this.onended;
-        this.bufferSource = bufferSource;
+        const that = this;
+        this.context.decodeAudioData(audio, function (buffer: any) {
+            const bufferSource = that.context.createBufferSource();
+            bufferSource.buffer = buffer;
+            bufferSource.connect(that.context.destination);
+            bufferSource.start(0);
+            bufferSource.onended = that.onended;
+        });
     }
 
     stop() {
-        this.offset = 0;
         if (this.bufferSource) {
             try {
                 this.bufferSource.stop();
@@ -65,7 +53,6 @@ class AudioPlayer {
 
     reset() {
         this.stop();
-        this.offset = 0;
     }
 }
 
@@ -84,15 +71,6 @@ class TTSRecorder {
     constructor(props: TTSRecorderProps) {
         this.props = props;
         this.audioContext = new AudioPlayer();
-        this.audioContext.onended = this.onAudioEnded;
-        worker.onmessage = ({ data }: any) => {
-            if (data.audio) {
-                this.audio.push(data.audio);
-            }
-            if (data.rawAudio) {
-                this.rawAudio.push(data.rawAudio);
-            }
-        }
     }
 
     get url() {
@@ -137,25 +115,22 @@ class TTSRecorder {
         const params = {
             common: { app_id: APPID },
             business: {
-                aue: 'raw',
+                aue: 'lame',
+                sfl: 1,
                 auf: 'audio/L16;rate=16000',
-                bgs: 1,
                 tte: this.props.tte || 'UTF8',
-                ent: this.props.engineType || 'intp65',
-                vcn: this.props.voiceName || 'xiaoyan',
-                speed: this.props.speed || 50,
-                volume: this.props.voice || 50,
-                pitch: this.props.pitch || 50,
+                vcn: this.props.voiceName || 'aisjiuxu',
+                speed: 50,
             },
             data: {
                 status: 2,
-                text: this.encodeText(text, this.props.tte === 'unicode' ? 'base64&utf16le' : ''),
+                text: Base64.encode(text),
             },
         };
         this.socket.send(JSON.stringify(params));
     }
 
-    run() {
+    run(text: string, callback: (base64: string) => void) {
         if ('WebSocket' in window) {
             this.socket = new WebSocket(this.url);
         } else if ('MozWebSocket' in window){
@@ -166,8 +141,7 @@ class TTSRecorder {
         }
         // websocket打开
         this.socket.onopen = () => {
-            this.send('杨威是个大傻逼');
-            setTimeout(this.onAudioEnded, 1000);
+            this.send(text);
         }
         this.socket.onmessage = ({ data }) => {
             let jsonData = JSON.parse(data);
@@ -178,22 +152,37 @@ class TTSRecorder {
                 this.socket.close();
                 return;
             }
-            worker.postMessage(jsonData.data.audio);
 
             if (jsonData.code === 0 && jsonData.data.status === 2) {
                 this.socket.close();
+                callback && callback(jsonData.data.audio);
             }
         }
     }
 
-    onAudioEnded = () => {
-        console.log(this.audio);
-        if (this.audioContext.offset < this.audio.length) {
-            const data = this.audio.slice(this.audioContext.offset);
-            this.audioContext.play(data);
-        } else {
-            this.audioContext.stop();
+
+    onDownload = (content: string) => {
+        const $el = document.createElement('a');
+        $el.download = 'mp3.txt';
+        $el.style.display = 'none';
+        
+        const blob = new Blob([content]);
+        $el.href = URL.createObjectURL(blob);
+
+        document.body.appendChild($el);
+        $el.click();
+        document.body.removeChild($el);
+    }
+
+    onParseVoice = (content: string) => {
+        // 播放MP3
+        const bytes = window.atob(content);
+        const abytes = new ArrayBuffer(bytes.length);
+        const arr = new Uint8Array(abytes);
+        for (let i = 0, len = bytes.length; i < len; i += 1) {
+            arr[i] = bytes.charCodeAt(i) & 0xFF;
         }
+        this.audioContext.play(abytes);
     }
 
 }
