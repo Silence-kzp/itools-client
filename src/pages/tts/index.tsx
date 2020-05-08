@@ -8,8 +8,5 @@ export default function() {
     //     re.run('杨威是傻逼');
     // }, [])
     return <div className="tts">
-        <Upload.Dragger name="file" beforeUpload={onAction}>
-            <p className="ant-upload-text">Click or drag file to this area to upload</p>
-        </Upload.Dragger>
     </div>
 }

@@ -2,7 +2,8 @@ import { defineConfig } from 'umi';
 
 export default defineConfig({
   title: 'iTools',
-  nodeModulesTransform: {
+  ssr: {},
+  nodeModulesTransform: {   
     type: 'none',
   },
   routes: [
@@ -24,6 +25,7 @@ export default defineConfig({
     'components': '@/components',
     'utils': '@/utils',
     'assets': '@/assets',
+    'services': '@/services',
   },
   theme: {
     '@layout-header-height': '58px',
