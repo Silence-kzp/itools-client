@@ -3,29 +3,29 @@ import { defineConfig } from 'umi';
 export default defineConfig({
   title: 'iTools',
   ssr: {},
-  nodeModulesTransform: {   
+  nodeModulesTransform: {
     type: 'none',
   },
+  cssLoader: {
+    modules: false,
+  },
   routes: [
-    { 
-      path: '/', 
+    {
+      path: '/',
       component: '@/pages/index',
       exact: true,
     },
-    { 
-      path: '/', 
+    {
+      path: '/',
       component: '@/layouts/index',
-      routes: [
-        { path: 'tts', component: '@/pages/tts/index' },
-      ],
+      routes: [{ path: 'tts', component: '@/pages/tts/index' }],
     },
-
   ],
   alias: {
-    'components': '@/components',
-    'utils': '@/utils',
-    'assets': '@/assets',
-    'services': '@/services',
+    components: '@/components',
+    utils: '@/utils',
+    assets: '@/assets',
+    services: '@/services',
   },
   theme: {
     '@layout-header-height': '58px',
@@ -35,13 +35,13 @@ export default defineConfig({
     '@layout-footer-padding': '0',
     '@layout-header-padding': '0',
   },
-  chainWebpack(config: any) { 
+  chainWebpack(config: any) {
     // svg
-    config.module.rules.delete('svg'); 
-    config.module.rule('svg')
-                 .test(/\.svg$/i)
-                 .use('@svgr/webpack')
-                 .loader('@svgr/webpack');       
+    config.module.rules.delete('svg');
+    config.module
+      .rule('svg')
+      .test(/\.svg$/i)
+      .use('@svgr/webpack')
+      .loader('@svgr/webpack');
   },
-
 });
