@@ -2,12 +2,16 @@
   position: relative;
 }
 
-.itools .ant-carousel .slick-slide {
+.itools .ant-carousel .slick-slider {
   width: 100vw;
   height: 100vh;
+  min-width: @layout-page-width;
 }
 
-.itools .ant-carousel .slick-slide > div,
+.itools .ant-carousel .slick-list,
+.itools .ant-carousel .slick-list .slick-track,
+.itools .ant-carousel .slick-list .slick-track .slick-slide,
+.itools .ant-carousel .slick-list .slick-track .slick-slide > div,
 .itools .ant-carousel .carousel-item {
   position: relative;
   width: 100%;
@@ -19,4 +23,34 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.itools .ant-carousel .carousel-item .carousel-item-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 100px;
+  max-width: 580px;
+  transform: translateY(-50%);
+}
+
+.itools .ant-carousel .carousel-item .carousel-item-title {
+  display: block;
+  color: white;
+  font-size: 34px;
+}
+
+.itools .ant-carousel .carousel-item .carousel-item-copyright {
+  display: block;
+  color: white;
+  font-size: 12px;
+  text-align: right;
+  margin-top: 8px;
+}
+
+// 登录框
+.itools .login-frame {
+  position: absolute;
+  top: 50%;
+  left: 750px;
+  transform: translateY(-50%);
 }
