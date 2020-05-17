@@ -1,26 +1,16 @@
 import { defineConfig } from 'umi';
+import routes from './routes';
 
 export default defineConfig({
   title: 'iTools',
   ssr: {},
+  routes,
   nodeModulesTransform: {
     type: 'none',
   },
   cssLoader: {
     modules: false,
   },
-  routes: [
-    {
-      path: '/',
-      component: '@/pages/index',
-      exact: true,
-    },
-    {
-      path: '/',
-      component: '@/layouts/index',
-      routes: [{ path: 'tts', component: '@/pages/tts/index' }],
-    },
-  ],
   alias: {
     components: '@/components',
     utils: '@/utils',

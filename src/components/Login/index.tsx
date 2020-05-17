@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Button, Input, Checkbox } from 'antd';
+import { useModel } from 'umi';
 
 import './index.less';
 
-export default function() {
+export default function({ onComplete, onFailure }: any) {
+  const { login } = useModel('auth');
   const [error, setError] = useState<string>();
+  const [loading, setLoading] = useState(false);
   const [type, setType] = useState('normal');
   const [form, setForm] = useState({
     account: null,
@@ -32,7 +35,31 @@ export default function() {
   const onConfirm = function() {
     if (!form.account) return setError('你还没有输入手机号码');
     else if (!form.password) return setError('你还没有输入密码');
+    setLoading(true);
+    login(form)
+      .then((res: any) => {
+        setLoading(false);
+        onComplete && onComplete(res);
+      })
+      .catch(function(err: any) {
+        setLoading(false);
+        onFailure && onFailure(err);
+      });
   };
+
+  const onGuestLogin = function() {
+    setLoading(true);
+    login()
+      .then((res: any) => {
+        setLoading(false);
+        onComplete && onComplete(res);
+      })
+      .catch(function(err: any) {
+        setLoading(false);
+        onFailure && onFailure(err);
+      });
+  };
+
   return (
     <div className="login-frame">
       {error ? <span className="login-frame_error">{error}</span> : null}
@@ -63,10 +90,17 @@ export default function() {
               </Checkbox>
             </div>
           </form>
-          <Button type="primary" shape="round" onClick={onConfirm}>
+          <Button
+            type="primary"
+            shape="round"
+            loading={loading}
+            onClick={onConfirm}
+          >
             登录
           </Button>
-          <Button type="link">游客登录</Button>
+          <Button type="link" onClick={onGuestLogin}>
+            游客登录
+          </Button>
         </>
       ) : null}
       {type === 'qrcode' ? (
