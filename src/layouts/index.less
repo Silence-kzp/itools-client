@@ -1,39 +1,45 @@
 // 防止滚动条出现造成页面抖动
 html {
-    overflow-y: scroll;
+  overflow-y: scroll;
 }
 
 :root {
-    overflow-y: auto;
-    overflow-x: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
-  
+
 :root body {
-    position: absolute;
+  position: absolute;
 }
 
 body {
-    width: 100vw;
-    overflow-x: hidden;
+  width: 100vw;
+  overflow-x: hidden;
 }
 
 #root {
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
 }
 
 .ant-layout {
-    width: 100%;
-    height: 100vh;
+  width: 100%;
+  height: 100vh;
+}
+
+.ant-btn:disabled,
+.ant-btn-round:disabled {
+  cursor: default;
+  border-color: transparent;
 }
 
 .ant-layout-content {
-    min-height: auto !important;
+  min-height: auto !important;
 }
 
 @media only screen and (max-width: @layout-page-width) {
-    #root {
-        overflow: auto;
-    }
+  #root {
+    overflow: auto;
+  }
 }

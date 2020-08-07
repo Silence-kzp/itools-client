@@ -26,7 +26,7 @@ const fitted_curve = function(points: number[][]) {
       if (i !== j) {
         const inner = matrix[j][i];
         for (let k = 0; k < len + 1; k += 1) {
-          matrix[j][k] = matrix[j][k] - inner *  matrix[i][k];
+          matrix[j][k] = matrix[j][k] - inner * matrix[i][k];
         }
       }
     }
@@ -37,11 +37,15 @@ const fitted_curve = function(points: number[][]) {
     if (i !== 0) val > 0 ? formula.push('+') : formula.push('-');
     if (matrix[i][len] !== 0) {
       const idx = len - 1 - i;
-      formula.push(`${i === 0 ? val : Math.abs(val)}${idx !== 0 ? ` * Math.pow(x, ${len - 1 - i})` : ''}`);
+      formula.push(
+        `${i === 0 ? val : Math.abs(val)}${
+          idx !== 0 ? ` * Math.pow(x, ${len - 1 - i})` : ''
+        }`,
+      );
     }
   }
   return formula.join(' ');
-}
+};
 
 export default () => {
   const points = [
@@ -51,8 +55,5 @@ export default () => {
   ];
   const formula = fitted_curve(points);
   console.log(formula);
-  return (
-    <div>
-    </div>
-  );
-}
+  return <div></div>;
+};
