@@ -1,4 +1,7 @@
 import React from 'react';
+import { Helmet } from 'umi';
+
+import Style from './index.less';
 
 // 曲线拟合
 // TODO: 如果存在相同的x和不同的y点，使用取均值的方法处理
@@ -47,13 +50,17 @@ const fitted_curve = function(points: number[][]) {
   return formula.join(' ');
 };
 
-export default () => {
-  const points = [
-    [1, 4],
-    [2, 5],
-    [4, 8],
-  ];
-  const formula = fitted_curve(points);
-  console.log(formula);
-  return <div></div>;
+export default function() {
+  // const points = [
+  //   [1, 4],
+  //   [2, 5],
+  //   [4, 8],
+  // ];
+  // const formula = fitted_curve(points);
+  return <>
+    <Helmet>
+      <title>曲线拟合</title>
+    </Helmet>
+    <div className={Style.fitted_curve}></div>
+  </>;
 };

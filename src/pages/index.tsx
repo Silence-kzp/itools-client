@@ -1,7 +1,6 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
 import { Carousel } from 'antd';
-import { request, history } from 'umi';
+import { request, history, Helmet } from 'umi';
 
 import Login from 'components/Login';
 import { GetParam } from 'utils/index';
@@ -17,7 +16,7 @@ const ITools = function(props: any) {
       window.location.href = redirect;
       return;
     }
-    history.push('/overview');
+    history.push('/');
   };
 
   return (

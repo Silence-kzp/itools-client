@@ -3,7 +3,7 @@ import routes from './routes';
 
 export default defineConfig({
   title: 'iTools',
-  ssr: {},
+  // ssr: {},
   routes,
   nodeModulesTransform: {
     type: 'none',
@@ -25,7 +25,32 @@ export default defineConfig({
     '@layout-footer-padding': '0',
     '@layout-header-padding': '0',
   },
+  chunks: ['vendor', 'itools'],
   chainWebpack(config: any) {
+    // 移除umi
+    const entry = config.entry('umi')['store'].values().next().value;
+    config.entryPoints.delete("umi");
+    config.entry('itools')
+          .add(entry)
+          .end();
+    config.merge({
+      optimization: {
+        minimize: true,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            vendor: {
+              test: /node_modules/,
+              name: 'vendor',
+              priority: 10,
+              enforce: true,
+            },
+          },
+        },
+      },
+    })
+          // config.optimization.clear();
+    
     // svg
     config.module.rules.delete('svg');
     config.module

@@ -28,7 +28,7 @@
   "dependencies": {
     "@tensorflow/tfjs": "^1.7.2",
     "@types/react-helmet": "^6.0.0",
-    "@umijs/preset-react": "1.x",
+    "@umijs/preset-react": "^1.5.19",
     "@umijs/test": "^3.1.1",
     "crypto-js": "^4.0.0",
     "echarts": "^4.7.0",
@@ -38,12 +38,7 @@
     "mathjs": "^6.6.3",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-<<<<<<< HEAD
     "umi": "^3.2.14",
-=======
-    "react-helmet": "^6.0.0",
-    "umi": "^3.2.0-beta.9",
->>>>>>> ffdea6b2b411dd5f33a33b745a01ad8ac95d2637
     "yorkie": "^2.0.0"
   }
 }

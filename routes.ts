@@ -13,7 +13,7 @@ export default [
     wrappers: ['@/pages/wrappers'],
     routes: [
       {
-        path: '/tts',
+        path: '/intelligent/tts',
         component: '@/pages/intelligent/tts/index',
         exact: true,
       },
@@ -28,7 +28,7 @@ export default [
     routes: [
       {
         // 曲线拟合
-        path: '/fitted_curve',
+        path: '/algorithm/fitted_curve',
         component: '@/pages/algorithm/fitted_curve/index',
         exact: true,
       },
