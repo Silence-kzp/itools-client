@@ -3,14 +3,19 @@ export default [
     // 登录页
     path: '/',
     component: '@/pages/index',
-    wrappers: ['@/pages/wrappers'],
-    exact: true,
+    routes: [
+      {
+        path: '/',
+        component: '@/pages/index',
+        exact: true,
+      },
+    ],
   },
   {
     // 机器学习
     path: '/intelligent',
     component: '@/layouts/index',
-    wrappers: ['@/pages/wrappers'],
+    wrappers: ['@/layouts/wrappers'],
     routes: [
       {
         path: '/intelligent/tts',
@@ -18,13 +23,12 @@ export default [
         exact: true,
       },
     ],
-    exact: false,
   },
   {
     // 算法
     path: '/algorithm',
     component: '@/layouts/index',
-    wrappers: ['@/pages/wrappers'],
+    wrappers: ['@/layouts/wrappers'],
     routes: [
       {
         // 曲线拟合
@@ -33,7 +37,6 @@ export default [
         exact: true,
       },
     ],
-    exact: false,
   },
   {
     // 404

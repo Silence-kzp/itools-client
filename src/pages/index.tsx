@@ -47,22 +47,4 @@ const ITools = function(props: any) {
   );
 };
 
-ITools.getInitialProps = async function({ isServer }: any) {
-  if (!isServer) return {};
-  const { images } = await request(
-    'https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=2',
-  );
-  return {
-    imgs: images.map((img: any) => {
-      const matched = img.copyright.match(/(.*)\((.*)\)$/);
-      return {
-        id: img.hsh,
-        url: `http://s.cn.bing.net${img.url}`,
-        title: matched[1],
-        copyright: matched[2],
-      };
-    }),
-  };
-};
-
 export default ITools;

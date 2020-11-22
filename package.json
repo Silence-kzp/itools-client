@@ -26,10 +26,11 @@
     "worker-loader": "^2.0.0"
   },
   "dependencies": {
-    "@tensorflow/tfjs": "^1.7.2",
+    "@tensorflow/tfjs": "^2.7.0",
     "@types/react-helmet": "^6.0.0",
     "@umijs/preset-react": "^1.5.19",
     "@umijs/test": "^3.1.1",
+    "axios": "^0.21.0",
     "crypto-js": "^4.0.0",
     "echarts": "^4.7.0",
     "js-base64": "^2.5.2",
