@@ -5,11 +5,12 @@ import nodemon from 'nodemon';
 nodemon({
   exec: 'ts-node -P tsconfig-node.json ./server/index.ts',
   ext: 'ts',
-  watch: [],
+  watch: ['server/'],
 });
 
 let process1: ChildProcessWithoutNullStreams | null = null;
 nodemon.on('start', function() {
+  if (process1) return console.log('Restart server');
   process1 = spawn('umi', ['dev'], {
     stdio: 'pipe',
   }) as ChildProcessWithoutNullStreams;
