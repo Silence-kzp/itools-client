@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "start": "ts-node -P tsconfig-node.json dev.ts",
-    "start-server": "ts-node -P tsconfig-node.json ./server/index.ts",
+    "start-server": "ts-node -P tsconfig-node.json dev.ts -s",
     "build": "umi build",
     "postinstall": "umi generate tmp",
     "prettier": "prettier --write '**/*.{js,jsx,tsx,ts,less,md,json}'",
@@ -38,6 +38,7 @@
     "@umijs/preset-react": "^1.5.19",
     "@umijs/test": "^3.1.1",
     "axios": "^0.21.0",
+    "commander": "^6.2.0",
     "crypto-js": "^4.0.0",
     "echarts": "^4.7.0",
     "js-base64": "^2.5.2",
