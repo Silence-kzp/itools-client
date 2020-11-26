@@ -4,10 +4,16 @@ import jwt from 'jsonwebtoken';
 
 import Koa from 'koa';
 import Jwt from 'koa-jwt';
-import Router from '@koa/router';
+import { createConnection } from 'typeorm';
+
+import router from './controller';
+
+// 创建数据库连接
+createConnection().then(function() {
+  console.log('数据库连接成功');
+});
 
 const app = new Koa();
-const router = new Router();
 
 // 401错误
 app.use(function(ctx, next) {
@@ -35,16 +41,16 @@ app.use(
       return pass;
     },
   }).unless({
-    path: [/^\/login/],
+    path: [/^\/\w+$/],
   }),
 );
 
 // 获取controllers下的路由
-const base = join(__dirname, '/controllers');
+const base = join(__dirname, '/controller');
 const files = readdirSync(base);
 for (let i = 0, len = files.length; i < len; i += 1) {
   const file = files[i];
-  if (extname(files[i]) !== '.ts') continue;
+  if (extname(files[i]) !== '.ts' || file === 'index.ts') continue;
   const filename = file.substring(0, file.length - 3);
   const context = require(join(base, file)).default;
   router.use(`/${filename}`, context.routes(), context.allowedMethods());

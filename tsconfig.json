@@ -5,7 +5,7 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "skipLibCheck": true,
-    "jsx": "react-jsx",
+    "jsx": "react",
     "esModuleInterop": true,
     "sourceMap": true,
     "baseUrl": "./",
@@ -18,7 +18,10 @@
       "assets/*": ["src/assets/*"],
       "services/*": ["src/services/*"]
     },
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "emitDecoratorMetadata": true
   },
   "exclude": ["server/**/*", "dev.ts"]
 }

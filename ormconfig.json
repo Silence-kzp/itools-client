@@ -1,0 +1,8 @@
+{
+  "type": "mysql",
+  "host": "excroc.vip",
+  "username": "root",
+  "password": "excroc@960208",
+  "database": "itools",
+  "entities": ["server/entity/**/*.ts"]
+}
